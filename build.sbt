@@ -27,7 +27,7 @@ lazy val scallion = project
       "-doc-root-content", baseDirectory.value + "/project/root-doc.txt"
     ),
 
-    target in Compile in doc := baseDirectory.value / "docs",
+    Compile / doc / target := baseDirectory.value / "docs",
 
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.2.9" % "test",
@@ -47,7 +47,7 @@ lazy val example = project
   .settings(
     commonSettings,
     name := "scallion-examples",
-    scalaSource in Compile := baseDirectory.value,
+    Compile / scalaSource := baseDirectory.value,
   )
   .dependsOn(scallion)
 
@@ -56,19 +56,19 @@ lazy val benchmark = project
   .settings(
     commonSettings,
     name                   := "scallion-benchmarks",
-    fork in run            := true,
+    run / fork             := true,
     run / baseDirectory    := file("."),
-    javaOptions in run     += "-Xss1024K",
-    scalaSource in Compile := baseDirectory.value / "src",
-    scalaSource in Test    := baseDirectory.value / "src",
-    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases",
-    resolvers += "bintray-djspiewak-maven" at "https://dl.bintray.com/djspiewak/maven",
-    libraryDependencies += "com.storm-enroute" %% "scalameter" % "0.19",
-    libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
+    run / javaOptions      += "-Xss1024K",
+    Compile / scalaSource  := baseDirectory.value / "src",
+    Test / scalaSource     := baseDirectory.value / "src",
+    resolvers += "Sonatyperun OSS Snapshots" at "https://oss.sonatype.org/content/repositories/releases",
+    resolvers += Resolver.bintrayRepo("djspiewak", "maven"),
+    libraryDependencies += "com.hughsimpson" %% "scalameter" % "0.22.1",
+    libraryDependencies += "org.scala" %% "scala-parser-combinators" % "2.2.0",
     libraryDependencies += "com.codecommit" %% "parseback-core" % "0.3",
     libraryDependencies += "com.codecommit" %% "parseback-cats" % "0.3",
     testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework"),
-    parallelExecution in Test := false,
+    Test / parallelExecution := false,
   )
   .dependsOn(scallion)
 
