@@ -55,6 +55,8 @@ lazy val benchmark = project
   .in(file("benchmark"))
   .settings(
     commonSettings,
+    scalaVersion           := "3.2.0",
+    crossScalaVersions ++= Seq("2.13.10", "3.2.0"),
     name                   := "scallion-benchmarks",
     run / fork             := true,
     run / baseDirectory    := file("."),
