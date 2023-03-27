@@ -224,7 +224,7 @@ object LambdaSyntax extends Parsers {
 
 // Main class.
 object LambdaCalculus {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Parsing and pretty printing expressions...")
 
     // Original text.

@@ -233,7 +233,7 @@ object JSONParser extends Parsers {
 }
 
 object JSON {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Parsing some valid JSON example strings.")
     println(JSONParser(JSONLexer("""{"foo":"bar", "baz":null}""".iterator)))
     println(JSONParser(JSONLexer("""[1, [true, false, {}], [3, [], [5, 6]]]""".iterator)))

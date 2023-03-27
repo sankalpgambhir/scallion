@@ -188,7 +188,7 @@ object CalcParser extends Parsers {
 }
 
 object Calculator {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Parsing and pretty printing calculator expressions.")
     val expressions = Seq(
       "1 + 2",

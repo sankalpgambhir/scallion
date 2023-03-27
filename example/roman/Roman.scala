@@ -105,7 +105,7 @@ object RomanSyntax extends Parsers {
 }
 
 object Roman {
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
     println("Parsing roman numerals: ")
     println("CXXXII => " + RomanSyntax.parser(Iterator(C, X, X, X, I, I)).getValue.get)
     println("MCDL => " + RomanSyntax.parser(Iterator(M, C, D, L)).getValue.get)

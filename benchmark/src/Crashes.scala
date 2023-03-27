@@ -3,11 +3,11 @@ import json._
 
 object Crashes {
 
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit = {
 
     println("Making Scala Parser Combinators crash.")
     try {
-      val tokens = JSONLexer(io.Source.fromFile("benchmark/resources/failing-scp.json"))
+      val tokens = JSONLexer(scala.io.Source.fromFile("benchmark/resources/failing-scp.json"))
       val parser = new ScalaParser
       parser(tokens)
       println("No crash.")
@@ -44,7 +44,7 @@ object Crashes {
 
     println("Making simple (non-zippy) LL(1) parsing with derivatives crash. (Warning: May take several minutes.)")
     try {
-      val tokens = JSONLexer(io.Source.fromFile("benchmark/resources/normal-10M.json"))
+      val tokens = JSONLexer(scala.io.Source.fromFile("benchmark/resources/normal-10M.json"))
       val parser = new ScallionParser
       parser.simpleApply(tokens)
       println("No crash.")

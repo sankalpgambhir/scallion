@@ -10,9 +10,9 @@ object Data {
       "normal-500k", "normal-600k", "normal-700k", "normal-800k",
       "normal-900k", "normal-1M", "normal-10M")
 
-    for (file <- files) {
-      val ts = JSONLexer(io.Source.fromFile("benchmark/resources/" + file + ".json")).toArray
-      println(file + ": " + ts.size + " tokens.")
-    }
+      for (file <- files) {
+        val ts = JSONLexer(scala.io.Source.fromFile("benchmark/resources/" + file + ".json")).toArray
+        println(file + ": " + ts.size + " tokens.")
+      }
   }
 }

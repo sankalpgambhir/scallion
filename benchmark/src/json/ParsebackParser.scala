@@ -1,7 +1,6 @@
 package json
 
 import parseback._
-import parseback.compat.cats._
 
 class ParsebackParser {
   import parseback.LineStream
