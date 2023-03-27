@@ -17,7 +17,7 @@ trait Parsing { self: Syntaxes =>
       val recCells: HashMap[RecId, Any] = new HashMap()
 
       def buildCell[A](syntax: Syntax[A]): SyntaxCell[A] = syntax match {
-        case Syntax.Success(value, _) => SyntaxCell.Success(value, syntax)
+        case Syntax.Success(value) => SyntaxCell.Success(value, syntax)
         case Syntax.Failure() => SyntaxCell.Failure(syntax)
         case Syntax.Elem(kind) => SyntaxCell.Elem(kind, syntax)
         case Syntax.Disjunction(left, right) =>
@@ -490,11 +490,11 @@ trait Parsing { self: Syntaxes =>
         }
       }
 
-      def epsilon[A](value: A): Tree[A] = {
-        new Success(value) {
-          override val nullable: Option[A] = Some(value)
+      def epsilon[A](valueIn: A): Tree[A] = {
+        new Success(valueIn) {
+          override val nullable: Option[A] = Some(valueIn)
           override val first: HashSet[Kind] = HashSet()
-          override val syntax: Syntax[A] = self.epsilon(value)
+          override val syntax: Syntax[A] = self.epsilon(valueIn)
         }
       }
 
@@ -506,30 +506,30 @@ trait Parsing { self: Syntaxes =>
         }
       }
 
-      def sequence[A, B](left: Tree[A], right: Tree[B]): Tree[A ~ B] = {
-        new Sequence[A, B](left, right) {
+      def sequence[A, B](leftIn: Tree[A], rightIn: Tree[B]): Tree[A ~ B] = {
+        new Sequence[A, B](leftIn, rightIn) {
           override val nullable: Option[A ~ B] = for {
-            l <- left.nullable
-            r <- right.nullable
+            l <- leftIn.nullable
+            r <- rightIn.nullable
           } yield l ~ r
-          override val first: HashSet[Kind] = left.first union right.first
-          override val syntax: Syntax[A ~ B] = left.syntax ~ right.syntax
+          override val first: HashSet[Kind] = leftIn.first union rightIn.first
+          override val syntax: Syntax[A ~ B] = leftIn.syntax ~ rightIn.syntax
         }
       }
 
-      def marked[A](inner: Tree[A], mark: Mark): Tree[A] = {
-        new Marked(inner, mark) {
-          override val nullable: Option[A] = inner.nullable
-          override val first: HashSet[Kind] = inner.first
-          override val syntax: Syntax[A] = inner.syntax.mark(mark)
+      def marked[A](innerIn: Tree[A], markIn: Mark): Tree[A] = {
+        new Marked(innerIn, markIn) {
+          override val nullable: Option[A] = innerIn.nullable
+          override val first: HashSet[Kind] = innerIn.first
+          override val syntax: Syntax[A] = innerIn.syntax.mark(markIn)
         }
       }
 
-      def transform[A, B](inner: Tree[A], function: A => B, inverse: B => Seq[A]): Tree[B] = {
-        new Transform(inner, function, inverse) {
-          override val nullable: Option[B] = inner.nullable.map(function)
-          override val first: HashSet[Kind] = inner.first
-          override val syntax: Syntax[B] = inner.syntax.map(function, inverse)
+      def transform[A, B](innerIn: Tree[A], functionIn: A => B, inverseIn: B => Seq[A]): Tree[B] = {
+        new Transform(innerIn, functionIn, inverseIn) {
+          override val nullable: Option[B] = innerIn.nullable.map(functionIn)
+          override val first: HashSet[Kind] = innerIn.first
+          override val syntax: Syntax[B] = innerIn.syntax.map(functionIn, inverseIn)
         }
       }
     }
