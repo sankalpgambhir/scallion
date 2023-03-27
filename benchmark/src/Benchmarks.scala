@@ -7,17 +7,16 @@ import json._
 
 abstract class BenchmarkFiles extends Bench.OfflineReport {
 
-  // Uncomment files from here.
   val files = Gen.enumeration("file")(
     "normal-100k",
-    //"normal-200k",
-    //"normal-300k",
-    //"normal-400k",
-    //"normal-500k",
-    //"normal-600k",
-    //"normal-700k",
-    //"normal-800k",
-    //"normal-900k",
+    "normal-200k",
+    "normal-300k",
+    "normal-400k",
+    "normal-500k",
+    "normal-600k",
+    "normal-700k",
+    "normal-800k",
+    "normal-900k",
     "normal-1M",
     "normal-10M",
   )
@@ -26,7 +25,7 @@ abstract class BenchmarkFiles extends Bench.OfflineReport {
 abstract class BenchmarkTokens extends BenchmarkFiles {
   val tokens = for {
     file <- files
-  } yield JSONLexer(io.Source.fromFile("benchmark/resources/" + file + ".json")).toArray
+  } yield JSONLexer(scala.io.Source.fromFile("benchmark/resources/" + file + ".json")).toArray
 }
 
 class SimpleLL1PWD extends BenchmarkTokens {
@@ -75,7 +74,7 @@ class EndToEndBenchmarks extends BenchmarkFiles {
 
     measure method "Scallion parse" in {
       using(files) in { file =>
-        val tokens = JSONLexer(io.Source.fromFile("benchmark/resources/" + file + ".json"))
+        val tokens = JSONLexer(scala.io.Source.fromFile("benchmark/resources/" + file + ".json"))
         val parser = new ScallionParser
         assert(parser(tokens).nonEmpty)
       }
