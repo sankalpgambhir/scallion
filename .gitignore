@@ -1,3 +1,10 @@
 target/
 project/target/
 example/target/
+
+# bloop, metals, vscode, and sbt
+.bloop/
+*metals.sbt
+.metals
+.vscode
+.bsp
